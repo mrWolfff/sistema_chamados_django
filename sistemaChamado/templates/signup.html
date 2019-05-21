@@ -1,0 +1,17 @@
+{% extends 'sistemaChamado/base.html'%}
+{% load crispy_forms_tags %}
+{% block titulo %}Cadastro!{% endblock%}
+{%block conteudo%}
+{% if user.is_authenticated %}
+<h2>Login!</h2>
+<form method="POST">
+	{% csrf_token %}
+	{{ form|crispy }}
+	<button type="submit" class="btn btn-success">Cadastrar</button>
+</form>
+{% else %}
+<script language= "JavaScript">
+	location.href="{%  url 'login.html' %}";
+</script>
+{% endif %} 
+{%endblock%}

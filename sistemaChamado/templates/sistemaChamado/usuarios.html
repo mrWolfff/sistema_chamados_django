@@ -1,0 +1,37 @@
+{% extends 'sistemaChamado/base.html'%}
+
+{% block titulo%}Usuários{% endblock %}
+
+{% block conteudo %}
+{% if user.is_authenticated %}
+<form action="{% url 'signup.html' %}" class="post-form">
+				<input type="submit" value="Novo Usuário" class="btn btn-primary">
+</form><br><br>
+<table class="table table-hover">
+	<thead class="thead-dark">
+		<tr>
+			<th>ID</th>
+			<th>Usuario</th>
+			<th>E-mail</th>
+			<th>Ação</th>
+		</tr>
+	</thead>
+	{% for usuario in usuarios %}
+	<tbody>
+		<tr>
+			<td>{{ usuario.id }}</td>
+			<td>{{ usuario.username }}</td>
+			<td>{{ usuario.email }}</td>
+			<td><form method="POST" action="{% url 'remover.html' usuario.id %}" class="post-form">{% csrf_token %}
+				<input type="submit" value="Deletar" class="btn btn-primary">
+			</form>
+		</tr>
+	</tbody>
+	{% endfor %}
+</table>
+{% else %}
+<script language= "JavaScript">
+	location.href="{%  url 'login.html' %}";
+</script>
+{% endif %}  
+{% endblock %}

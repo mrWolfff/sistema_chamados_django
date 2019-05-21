@@ -1,0 +1,42 @@
+{% extends 'sistemaChamado/base.html' %}
+
+{% block titulo %}Cadastro Chamado{% endblock %}
+
+{% block conteudo %}
+{% if user.is_authenticated %}
+
+<h2>Cadastre um novo chamado técnico!</h2>
+<br>
+<form method="POST" action="{% url 'chamados.html' %}">
+	{% csrf_token %}
+	<div class="form-row">
+		<div class="col-9">
+			<label>Assunto:</label>
+			<input name="assunto" type="text" class="form-control" placeholder="Digite o assunto do seu chamado...">
+		</div>
+		<div class="col">
+			<label>Prioridade:</label>
+			<select class="form-control" name="prioridade">
+				<option selected>Escolher...</option>
+				<option>Urgente</option>
+				<option>Importante</option>
+				<option>Normal</option>
+				<option>Sem urgência</option>
+			</select>
+		</div>
+	</div><br>
+	<div class="form-row">
+		<div class="col">
+			<label>Descricao:</label>
+			<textarea type="text" class="form-control" placeholder="Digite a descrição..."rows="3" name="descricao"></textarea>
+		</div>
+	</div><br>
+	<input type="hidden" name="usuario" value="{{ user.username }}">
+	<input type="submit" class="btn btn-success" value="Salvar">
+</form>
+{% else %}
+<script language= "JavaScript">
+	location.href="{%  url 'login.html' %}";
+</script>
+{% endif %}
+{% endblock %}

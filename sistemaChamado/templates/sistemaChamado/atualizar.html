@@ -1,0 +1,58 @@
+{% extends 'sistemaChamado/base.html'%}
+
+{% block titulo %}Atualizar Chamado{% endblock%}
+
+{% block conteudo %}
+{% if user.is_authenticated %}
+
+<br>
+<form method="POST" action="{% url 'atualizar.html' chamados.id %}">
+	{% csrf_token %}
+	<div class="form-row">
+		<div class="col-6">
+			<label>Assunto:</label>
+			<input name="assunto" type="text" class="form-control" value="{{chamados.assunto}}">
+		</div>
+		<div class="col-3">
+			<label>Prioridade:</label>
+			<select class="form-control" name="prioridade">
+				<option selected>{{chamados.prioridade}}</option>
+				<option>Urgente</option>
+				<option>Importante</option>
+				<option>Normal</option>
+				<option>Sem urgência</option>
+			</select>
+		</div>
+		<div class="col">
+			<label>Status:</label>
+			<select class="form-control" name="status">
+				<option selected>{{chamados.status}}</option>
+				<option>Concluído</option>
+				<option>Não Realizado</option>
+			</select>
+		</div>
+	</div><br>
+	<div class="form-row">
+		<div class="col">
+			<label>Descrição:</label>
+			<textarea type="text" class="form-control" rows="3" name="descricao">{{chamados.descricao}}</textarea>
+		</div>
+	</div><br>
+	<div class="form-row">
+		<div class="col">
+			<label>Solução:</label>
+			<textarea type="text" class="form-control" rows="3" name="solucao">{{chamados.solucao}}</textarea>
+		</div>
+	</div><br>
+	<input type="submit" class="btn btn-success" value="Salvar">
+	
+</form><br>
+<form method="POST" action="{% url 'deletar.html' chamados.id %}" class="post-form">{% csrf_token %}
+	<input type="submit" value="Deletar Chamado" class="btn btn-danger">
+</form>
+{% else %}
+<script language= "JavaScript">
+	location.href="{%  url 'index.html' %}";
+</script>
+{% endif %}
+{% endblock %}
