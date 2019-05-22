@@ -3,6 +3,7 @@
 {% block titulo %}Cadastro!{% endblock%}
 {%block conteudo%}
 {% if user.is_authenticated %}
+{% if user.username == 'admin'%}
 <h2>Login!</h2>
 <form method="POST">
 	{% csrf_token %}
@@ -13,5 +14,6 @@
 <script language= "JavaScript">
 	location.href="{%  url 'login.html' %}";
 </script>
+{% endif %} 
 {% endif %} 
 {%endblock%}

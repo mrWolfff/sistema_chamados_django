@@ -21,9 +21,11 @@
 				<li class="nav-item">
 					<a class="nav-link" href="{% url 'chamados.html'%}">Novo Chamado</a>
 				</li>
+				{% if user.username == 'admin'%}
 				<li class="nav-item">
 					<a class="nav-link" href="{% url 'usuarios.html'%}">Usuários</a>
 				</li>
+				{% endif %}
 				<li class="nav-item">
 					<a class="nav-link right" href="{% url 'logout' %}">Sair</a>
 				</li>
