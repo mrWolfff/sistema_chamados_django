@@ -10,7 +10,9 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
     list_display = ['email', 'username',]
+    fieldset = UserAdmin.fieldsets + (
+    	('Pessoal', {'fields':('imagem',)}),
+    	('Pessoal', {'fields':('setor',)}),
+    )
 
 admin.site.register(CustomUser, CustomUserAdmin)
-
-# Register your models here.

@@ -27,23 +27,45 @@
 			<label>Status:</label>
 			<select class="form-control" name="status">
 				<option selected>{{chamados.status}}</option>
+				{% if user.username == 'admin'%}
 				<option>Concluído</option>
 				<option>Não Realizado</option>
+				{% endif %}
 			</select>
+
 		</div>
 	</div><br>
 	<div class="form-row">
-		<div class="col">
+		<div class="col-6">
 			<label>Descrição:</label>
 			<textarea type="text" class="form-control" rows="3" name="descricao">{{chamados.descricao}}</textarea>
 		</div>
+		<div class="col-3">
+			<label>Para o Usuario:</label>
+			<div class="card">
+				<div class="card-body">
+					{{chamados.para_usuario}}	
+				</div>
+			</div>
+		</div>
+		<div class="col-3">
+			<label>Para o Setor:</label>
+			<div class="card">
+				<div class="card-body">
+					{{chamados.setor}}	
+				</div>
+			</div>
+		</div>
 	</div><br>
+	{% if chamados.prioridade == 'Concluído' or user.username == chamados.para_usuario %}
 	<div class="form-row">
 		<div class="col">
 			<label>Solução:</label>
 			<textarea type="text" class="form-control" rows="3" name="solucao">{{chamados.solucao}}</textarea>
+
 		</div>
 	</div><br>
+	{% endif %}
 	<input type="submit" class="btn btn-success" value="Salvar">
 	
 </form><br>

@@ -1,0 +1,26 @@
+{% extends 'sistemaChamado/base.html' %}
+
+{% block title %}Setores{% endblock %}
+
+{% block conteudo %}
+<a href="{% url 'novosetor' %}"><button class="btn btn-primary">Adicionar um Setor</button></a><br><br>
+{% for setor in setores %}
+<ul class="list-group">
+	<a href="{% url 'setor' setor.id %}"><li class="list-group-item justify-content-between align-items-center">
+		<div class="row">
+			<div class="col-3">
+				<b>Setor: </b>{{ setor.nome }} 
+			</div>
+			<div class="col-5">
+				<p>{{ setor.descricao }}</p>
+			</div>
+			<div class="col-3">
+				<b>Telefone: </b>{{ setor.telefone }}</p> 
+			</div>
+			<div class="col-1">
+			</div>
+		</div>
+	</li></a>
+	{% endfor %}
+</ul>
+{% endblock %}

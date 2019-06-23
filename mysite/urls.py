@@ -18,13 +18,16 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import LoginView
 from django.conf.urls import url
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('sistemaChamado.urls',)),
+    path('', include('setores.urls',)),
     path('', include('accounts.urls',)),
     path('accounts/', include('django.contrib.auth.urls')),  
     path('', LoginView.as_view(template_name='registration/login.html'), name="login.html"),
-   
-]
+] 
+urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

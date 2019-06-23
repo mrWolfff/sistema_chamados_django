@@ -14,6 +14,7 @@
 			<th>ID</th>
 			<th>Usuario</th>
 			<th>E-mail</th>
+			<th>Setor</th>
 			<th>Ação</th>
 		</tr>
 	</thead>
@@ -23,8 +24,9 @@
 			<td>{{ usuario.id }}</td>
 			<td>{{ usuario.username }}</td>
 			<td>{{ usuario.email }}</td>
+			<td>{{ usuario.setor }}</td>
 			<td><form method="POST" action="{% url 'remover.html' usuario.id %}" class="post-form">{% csrf_token %}
-				<input type="submit" value="Deletar" class="btn btn-primary">
+				<input type="submit" value="Deletar" class="btn btn-danger	">
 			</form>
 		</tr>
 	</tbody>

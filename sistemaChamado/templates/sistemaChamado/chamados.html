@@ -5,16 +5,17 @@
 {% block conteudo %}
 {% if user.is_authenticated %}
 
+
 <h2>Cadastre um novo chamado técnico!</h2>
 <br>
-<form method="POST" action="{% url 'chamados.html' %}">
+<form method="POST" action="{% url 'chamados.html' %}" enctype="multipart/form-data">
 	{% csrf_token %}
 	<div class="form-row">
-		<div class="col-9">
+		<div class="col-6">
 			<label>Assunto:</label>
 			<input name="assunto" type="text" class="form-control" placeholder="Digite o assunto do seu chamado...">
 		</div>
-		<div class="col">
+		<div class="col-3">
 			<label>Prioridade:</label>
 			<select class="form-control" name="prioridade">
 				<option selected>Escolher...</option>
@@ -24,11 +25,35 @@
 				<option>Sem urgência</option>
 			</select>
 		</div>
+		<div class="col-3">
+			<label>Para o Setor:</label>
+			<select class="form-control" name="setor">
+				<option selected>Escolher...</option>
+				
+				{% for setor in setores %}
+				<option>{{ setor.nome }}</option>
+				{% endfor %}
+			</select>
+		</div>
 	</div><br>
 	<div class="form-row">
-		<div class="col">
+		<div class="col-5">
 			<label>Descricao:</label>
 			<textarea type="text" class="form-control" placeholder="Digite a descrição..."rows="3" name="descricao"></textarea>
+		</div>
+		<div class="col-3">
+			<label>Para o Usuario:</label>
+			<select class="form-control" name="para_usuario">
+				<option selected>Escolher...</option>
+				
+				{% for usuario in usuarios %}
+				<option>{{ usuario.username }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="col">
+			<label>Anexo:</label>
+			<input type="file" class="form-control-file" name="anexo">
 		</div>
 	</div><br>
 	<input type="hidden" name="usuario" value="{{ user.username }}">
