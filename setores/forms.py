@@ -1,5 +1,5 @@
 from django import forms
-from .models import Setores
+from .models import Setores, Prioridades
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Reset
 
@@ -23,6 +23,19 @@ class SetoresForm(forms.ModelForm):
 		)
 		self.helper.add_input(Submit('submit', 'Enviar'))
 		self.helper.add_input(Reset('reset', 'Limpar', css_class='btn-danger float-right'))
+
+class PrioridadesForm(forms.ModelForm):
+	class Meta:
+		model = Prioridades
+		fields = ('nome',)
+		
+	def __init__(self, *args, **kwargs):
+		super(PrioridadesForm, self).__init__(*args, **kwargs)
+		self.helper = FormHelper(self)
+		self.helper.form_method = 'post'
+		self.helper.add_input(Submit('submit', 'Enviar'))
+		self.helper.add_input(Reset('reset', 'Limpar', css_class='btn-danger float-right'))
+		
 
 
 

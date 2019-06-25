@@ -4,28 +4,37 @@ from django.shortcuts import redirect
 import pdb
 from django.views.generic import CreateView
 from .models import Chamados
-from .forms import ChamadosForm
+from .forms import ChamadosForm, ChamadosChangeForm
 from setores.models import Setores
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
 from .forms import ContatoForm
 from accounts.models import CustomUser
+from django.views import generic
+from django.urls import reverse_lazy
+from django.contrib import messages
 
 
 def baseRender(request):
 	return render(request, 'sistemaChamado/base.html')
 
+
 @login_required
 def chamadosRender(request):
+	messages.info(request, 'Preencha os campos Obrigatórios!', extra_tags='alert')
 	form = Chamados.objects.all()
 	setores = Setores.objects.all()
 	usuarios = CustomUser.objects.all()	
 	if request.POST != None:
-		form = ChamadosForm(request.POST)	
+		form = ChamadosChangeForm(request.POST)	
 		if form.is_valid():
 			form.save()
+			messages.success(request, 'Chamado criado com sucesso', extra_tags='alert')
 			return redirect('index')
+
 	return render(request, 'sistemaChamado/chamados.html', {'form':form, 'setores':setores, 'usuarios':usuarios})
+
+
 
 @login_required
 def index(request):
@@ -33,15 +42,11 @@ def index(request):
 	chamados = Chamados.objects.all()
 	cont_concluidos = chamados.filter(status__icontains='Concluído').count()
 	cont_abertos = chamados.filter(status__icontains='Não Realizado').count()
-	cont_andamento = chamados.filter(status__icontains='Em Andamento').count()
-	contador = cont(chamados)
 	context = {
 		'chamados':chamados,
 		'cont':cont,
 		'cont_concluidos':cont_concluidos,
 		'cont_abertos':cont_abertos,
-		'cont_andamento':cont_andamento,
-		'contador':contador
 	}
 	return render(request, 'sistemaChamado/index.html', context)
 
@@ -57,7 +62,6 @@ def indexAbertos(request):
 		'cont':cont,
 		'cont_concluidos':cont_concluidos,
 		'cont_abertos':cont_abertos,
-		'cont_andamento':cont_andamento
 	}
 	return render(request, 'sistemaChamado/abertos.html', context)
 
@@ -79,10 +83,12 @@ def indexConcluidos(request):
 
 @login_required
 def atualizar(request, id):
+
 	chamados = Chamados.objects.get(id=id)
 	if request.POST != None:
 		form = ChamadosForm(request.POST or None, instance=chamados)
 		if form.is_valid():
+
 			form.save()
 			return redirect('index')	
 	return render(request, 'sistemaChamado/atualizar.html', {'chamados': chamados})
@@ -93,8 +99,14 @@ def deletarChamado(request, id):
 
 	if request.POST != None:
 		chamado.delete()
-		return redirect('index.html')
+		messages.success(request, 'Chamado Deletado!', extra_tags='alert')
+		return redirect('index')
 	return render(request, 'sistemaChamado/deletar.html', {'chamado': chamado})
+
+def filtrar(request, filtro):
+	chamados = Chamados.objects.all()
+	chamados = Chamados.objects.order_by(filtro)
+	return render(request, 'sistemaChamado/index.html', {'chamados':chamados})
 
 
 #Contato
@@ -111,9 +123,9 @@ def contato(request):
             try:
                 send_mail(assunto, msg, emissor, ['lucasewolflew@gmail.com'])
             except BadHeaderError:
-                return HttpResponse("Erro =/")
+            	return redirect('contato')	
             return redirect('obg')
     return render(request, 'sistemaChamado/contato.html', {'form': email_form})
 
 def obg(request):
-    return HttpResponse("<h2>Obrigado pela mensagem!!!</h2>")
+    return render(request, 'sistemaChamado/obg.html')

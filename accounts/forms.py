@@ -16,6 +16,7 @@ class CustomUserCreationForm(UserCreationForm):
 		self.helper.add_input(Submit('submit', 'Criar'))
 		self.helper.add_input(Reset('reset', 'Limpar', css_class="btn-danger"))
 
+
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:

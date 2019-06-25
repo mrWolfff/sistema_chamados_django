@@ -2,44 +2,52 @@
 
 {% block titulo %}Chamados{% endblock%}
 {% block conteudo %}
+<div class="card bg-light">
+						<div class="card-body">
+							<h4>Bem-vindo, {{user.username}}</h4>
+						</div>
+					</div>
+					<br>
 {% if user.is_authenticated %}
-<h3>Bem-vindo, {{user.username}}</h3><br>
 {% block chamados %}
+<style>th{cursor:pointer;}</style>
 <ul class="nav nav-tabs">	
-	<li id="todos"><a href="{% url 'index' %}">Inbox <span class="badge badge-primary badge-pill">{{ cont }}</span></a></li>
-	<li id="nao_realizado"><a href="{% url 'abertos' %}">Chamados não realizados <span class="badge badge-primary badge-pill">{{ cont_abertos }}</span></a></li>
-	<li id="concluidos" class="active"><a href="{% url 'concluidos' %}">Chamados Concluídos <span class="badge badge-primary badge-pill">{{ cont_concluidos }}</span></a></li>
+	<li id="todos"><a href="{% url 'index' %}">Inbox</a></li>
+	<li id="nao_realizado"><a href="{% url 'abertos' %}">Chamados não realizados </a></li>
+	<li id="concluidos" class="active"><a href="{% url 'concluidos' %}">Chamados Concluídos</a></li>
 </ul>
 {% endblock %}
 <br>
 <table class="table table-hover">
 	<thead class="thead-light">
 		<tr>
-			<th>Código</th>
+			<th>#</th>
 			<th>Assunto</th>
 			<th>Prioridade</th>
 			<th>Descrição</th>
 			<th>Status</th>
-			<th>Usuário</th>
+			<th>Para o Setor:</th>
 			<th>Data</th>
 			<th>Ação</th>
 		</tr>	
 	</thead>
 	{% for chamado in chamados %}
+	{% if chamado.setor == user.setor %}
 	<tbody>
 		<tr style="cursor:pointer;" onclick="location.href = '{% url 'atualizar.html' chamado.id %}';">
-			<td>{{ chamado.id }}</td>
+			<td><input type="checkbox" class="form-check-input" style="cursor:pointer;" onclick="location.href = '{% url 'atualizar.html' chamado.id %}';"></td>
 			<td>{{ chamado.assunto }}</td>
 			<td>{{ chamado.prioridade }}</td>
 			<td>{{ chamado.descricao }}</td>
 			<td>{{ chamado.status }}</td>
-			<td>{{ chamado.usuario }}</td>
+			<td>{{ chamado.setor }}</td>
 			<td>{{ chamado.data }}</td>
 			<td><form method="POST" action="{% url 'atualizar.html' chamado.id %}" class="post-form">{% csrf_token %}
 				<input type="submit" value="Atualizar" class="btn btn-primary"></td>
 			</form>
 		</a></tr>
 	</tbody>
+	{% endif %}
 	{% endfor %}
 </table>       
 {% else %}

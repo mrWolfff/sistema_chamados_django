@@ -1,58 +1,59 @@
 {% extends 'sistemaChamado/base.html'%}
-
 {% block titulo %}Chamados{% endblock%}
 {% block conteudo %}
 {% if user.is_authenticated %}
-{{ contador }}
-<div class="card">
-				<div class="card-body">
-					<h4>Bem-vindo, {{user.username}}</h4>
-				</div>
-			</div>
-<br>
+
 
 {% block chamados %}
+<div class="card bg-light">
+						<div class="card-body">
+							<h4>Bem-vindo, {{user.username}}</h4>
+						</div>
+					</div>
+					<br>
 <ul class="nav nav-tabs">	
-	<li class="active" id="todos"><a href="{% url 'index' %}">Inbox <span class="badge badge-primary badge-pill">{{ cont }}</span></a></li>
-	<li id="nao_realizado"><a href="{% url 'abertos' %}">Chamados não realizados <span class="badge badge-primary badge-pill">{{ cont_abertos }}</span></a></li>
+	<li class="active" id="todos"><a href="{% url 'index' %}">Inbox</a></li>
+	<li id="nao_realizado"><a href="{% url 'abertos' %}">Chamados não realizados</a></li>
 
-	<li id="concluidos"><a href="{% url 'concluidos' %}">Chamados Concluídos <span class="badge badge-primary badge-pill">{{ cont_concluidos }}</span></a></li>
+	<li id="concluidos"><a href="{% url 'concluidos' %}">Chamados Concluídos</a></li>
 </ul>
 {% endblock %}
 <br>
+<div class="table-responsive-sm">
 <table class="table table-hover">
-	<thead class="thead-light" id="thead">
+	<thead class="thead-light thead-hover">
 		<tr>
+			</form>
 			<th>#</th>
-			<th>Assunto 
-				<i class="fas fa-sort ml-1"></i>
-			</th>
+			<th style="cursor:pointer;" onclick="location.href = '{% url 'filtrar' 'assunto' %}';">Assunto</th>
 			<th>Prioridade</th>
 			<th>Descrição</th>
 			<th>Status</th>
-			<th>Feito por</th>
+			<th>Para o Setor:</th>
+			<th style="cursor:pointer;" onclick="location.href = '{% url 'filtrar' 'data' %}';">Data</th>
 			<th>Ação</th>
 		</tr>	
 	</thead>
 	{% for chamado in chamados %}
-		{{contador }}
-	{% if chamado.para_usuario == user.username %}
-	<tbody id="linha">
-		<tr id="linha">
-			<td><input type="checkbox" class="form-check-input" id="check_index"></td>
+	{% if chamado.setor == user.setor %}
+	<tbody>
+		<tr class="table-light" id="tr">
+			<td><input type="checkbox" class="form-check-input" style="cursoror:pointer;" onclick="location.href = '{% url 'atualizar.html' chamado.id %}';"></td>
 			<td>{{ chamado.assunto }}</td>
 			<td>{{ chamado.prioridade }}</td>
 			<td>{{ chamado.descricao }}</td>
 			<td>{{ chamado.status }}</td>
-			<td>{{ chamado.usuario }}</td>
+			<td>{{ chamado.setor }}</td>
+			<td>{{ chamado.data }}</td>
 			<td><form method="POST" action="{% url 'atualizar.html' chamado.id %}" class="post-form">{% csrf_token %}
 				<input type="submit" value="Atualizar" class="btn btn-primary"></td>
 			</form>
 		</a></tr>
 	</tbody>
 	{% endif %}
-		{% endfor %}
-</table>       
+	{% endfor %}
+</table>  
+</div>     
 {% else %}
 <div class="container">
 	<p>Você não está logado!</p>

@@ -17,47 +17,30 @@
 			<label>Prioridade:</label>
 			<select class="form-control" name="prioridade">
 				<option selected>{{chamados.prioridade}}</option>
-				<option>Urgente</option>
-				<option>Importante</option>
-				<option>Normal</option>
-				<option>Sem urgência</option>
 			</select>
 		</div>
 		<div class="col">
 			<label>Status:</label>
 			<select class="form-control" name="status">
 				<option selected>{{chamados.status}}</option>
-				{% if user.username == 'admin'%}
 				<option>Concluído</option>
 				<option>Não Realizado</option>
-				{% endif %}
 			</select>
 
 		</div>
 	</div><br>
 	<div class="form-row">
-		<div class="col-6">
+		<div class="col-8">
 			<label>Descrição:</label>
 			<textarea type="text" class="form-control" rows="3" name="descricao">{{chamados.descricao}}</textarea>
 		</div>
-		<div class="col-3">
-			<label>Para o Usuario:</label>
-			<div class="card">
-				<div class="card-body">
-					{{chamados.para_usuario}}	
-				</div>
-			</div>
-		</div>
-		<div class="col-3">
+		<div class="col-4">
 			<label>Para o Setor:</label>
-			<div class="card">
-				<div class="card-body">
-					{{chamados.setor}}	
-				</div>
-			</div>
+			<select class="form-control">
+				<option selected>{{chamados.setor}}</option>
+			</select>
 		</div>
 	</div><br>
-	{% if chamados.prioridade == 'Concluído' or user.username == chamados.para_usuario %}
 	<div class="form-row">
 		<div class="col">
 			<label>Solução:</label>
@@ -65,7 +48,6 @@
 
 		</div>
 	</div><br>
-	{% endif %}
 	<input type="submit" class="btn btn-success" value="Salvar">
 	
 </form><br>

@@ -11,5 +11,6 @@ path('deletar/<int:id>/', views.deletarChamado, name='deletar.html'),
 path('abertos/', views.indexAbertos, name='abertos'),
 path('concluidos/', views.indexConcluidos, name='concluidos'),
 path('contato/', views.contato, name='contato'),
-path('contato/obg', views.obg, name='obg'),
+path('obg', views.obg, name='obg'),
+path('filtrar/<str:filtro>', views.filtrar, name='filtrar'),
 ]

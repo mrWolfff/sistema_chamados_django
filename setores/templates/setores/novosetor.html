@@ -5,6 +5,8 @@
 {% load crispy_forms_tags %}
 
 {% block conteudo %}
+{% if user.username == 'admin'%}
 	{% crispy form %}
+	{% endif %}
 {% endblock %}
 

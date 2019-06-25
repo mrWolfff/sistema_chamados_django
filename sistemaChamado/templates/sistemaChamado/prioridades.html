@@ -3,14 +3,13 @@
 {% block titulo %}Cadastro Chamado{% endblock %}
 {% load crispy_forms_tags %}
 {% block conteudo %}
+{% if user.username == 'admin'%}
 
-
-<h2>Cadastre um novo chamado técnico!</h2>
+<h2>Cadastre uma nova prioridade!</h2>
 <br>
-<form method="POST" enctype="multipart/form-data">
+<form method="POST">
 	{% csrf_token %}
-	<input type="hidden" name="usuario" value="{{user.username}}">
 	{% crispy form %}
 </form>
-	
+{% endif %}
 {% endblock %}

@@ -46,13 +46,25 @@ $(document).ready(function(){
 	}
 
 	//checkbox do index
-	$("#check_index").change(function() {
+	$(".form-check-input").change(function() {
 		if ($(this).prop("checked") == true) {
-			alert("alou")
-			$('#thead').removeClass('thead-light');
-			$('#thead').addClass('thead-dark');
+			$("#tr").removeClass('table-light');
+			$('#tr').addClass('table-active');
+		}else{
+			$("#tr").removeClass('table-active');
+			$('#tr').addClass('table-light');
 		}
 	});
+
+	//faixa bem vindo usuario
+	$('.card').hover(
+		function() {
+			$(this).removeClass('bg-light');
+			$(this).addClass(' bg-primary');
+		},function(){
+			$(this).removeClass('bg-primary');
+			$(this).addClass(' bg-light');
+		});
 
 
 
